@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 
 # Configuration parameters
 DATA_PATH = "data.json"
-SAVED_MODEL_PATH = "models/model.h5"
+SAVED_MODEL_PATH = "models/model.keras"
 EPOCHS = 40
 BATCH_SIZE = 32
 PATIENCE = 5
@@ -90,7 +90,7 @@ def build_model(input_shape, loss="sparse_categorical_crossentropy", learning_ra
         tf.keras.layers.Dropout(0.3),
         
         # Output layer
-        tf.keras.layers.Dense(10, activation='softmax')
+        tf.keras.layers.Dense(2, activation='softmax')
     ])
 
     # Compile model with Adam optimizer
@@ -114,7 +114,7 @@ def train(model, epochs, batch_size, patience, X_train, y_train, X_validation, y
         history: Training history.
     """
     # Early stopping to prevent overfitting
-    early_stopping = tf.keras.callbacks.EarlyStopping(monitor="accuracy", min_delta=0.001, patience=patience)
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", min_delta=0.001, patience=patience)
     
     history = model.fit(
         X_train, y_train,
@@ -141,7 +141,7 @@ def main():
     print(f"\nTest Loss: {test_loss}, Test Accuracy: {test_acc * 100:.2f}%")
     
     # Save trained model in the Keras format
-    model.save(SAVED_MODEL_PATH.replace(".h5", ".keras"))
+    model.save(SAVED_MODEL_PATH)
 
 
 if __name__ == "__main__":
