@@ -1,17 +1,17 @@
-# CS-4273-Capstone-Group-B
+# Dispatch Quality Analysis
 Repository for Fall 2024 CS 4273 Capstone Project
 
-## NOTE 
+## NOTE
 
-This README is subject to many changes. The current instructions are crude and are the bare minimum to get the code working, there will be a more streamlined process in the future.
+This README is subject to many changes. The current instructions are crude and are the bare minimum to get the code working. There will be a more streamlined process in the future.
 
-## Overview (TODO)
+## Overview
 
-This project pre-processes a voice dataset by extracting Mel-Frequency Cepstral Coefficients (MFCCs), which represent the essential features of audio signals. These MFCCs are then saved in a JSON file, providing a structured way to store important acoustic features for machine learning models. 
+This project pre-processes a voice dataset by extracting Mel-Frequency Cepstral Coefficients (MFCCs), which represent the essential features of audio signals. These MFCCs are then saved in a JSON file, providing a structured way to store important acoustic features for machine learning models. The extracted features are then used to train a model for recognizing speech commands.
 
 ### Prerequisites
 
-Must have Python installed
+Must have Python installed.
 
 1. **Create a virtual environment:**
 
@@ -28,7 +28,6 @@ Must have Python installed
 3. **Download the dataset:**
 
    [Download speech_commands_v0.01.tar.gz](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz)
-
 
 ### Processing Data
 
@@ -49,4 +48,32 @@ Must have Python installed
    ```bash
    python scripts/prepare_dataset.py
    ```
+
+### Training the Model
+
+After preparing the dataset, you can train the model using the following command:
+
+```bash
+python scripts/train.py
+```
+
+This will train the model on the pre-processed dataset and save the trained model for future use.
+
+### Predicting with the Model
+
+1. **Create a `tests/` folder**:
+   In the root directory of your project, create a `tests/` folder to store the test audio files.
+
+   ```bash
+   mkdir tests
+   ```
+
+2. **Run the prediction script**:
+   After adding test files to the `tests/` folder, you can run the prediction script. Make sure to adjust the file path in the script if necessary:
+
+   ```bash
+   python scripts/detect.py
+   ```
+
+This will use the trained model to predict the speech command from the audio file in the `tests/` folder.
 
