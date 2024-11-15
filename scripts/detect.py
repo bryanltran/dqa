@@ -18,7 +18,7 @@ class KeywordSpottingService:
 
     def predict(self, file_path, confidence_threshold=0.5, min_detections=2):
         """
-        Predict keywords in an audio file of any length
+        Predict keywords in an audio file of any length.
         
         Args:
             file_path (str): Path to audio file
@@ -38,9 +38,9 @@ class KeywordSpottingService:
             mfcc_chunk = mfcc_chunk[np.newaxis, ..., np.newaxis]
             
             # Get prediction probabilities
-            pred_probs = self.model.predict(mfcc_chunk, verbose=0)
+            pred_probs = self.model.predict(mfcc_chunk, verbose=0)[0]
             pred_idx = np.argmax(pred_probs)
-            confidence = pred_probs[0][pred_idx]
+            confidence = pred_probs[pred_idx]
             
             # Only keep predictions above confidence threshold
             if confidence >= confidence_threshold:
@@ -85,7 +85,7 @@ class KeywordSpottingService:
 
     def _aggregate_predictions(self, predictions, min_detections):
         """
-        Aggregate predictions to remove duplicates and combine nearby detections
+        Aggregate predictions to remove duplicates and combine nearby detections.
         
         Args:
             predictions (list): List of (keyword, start_time, end_time, confidence) tuples
@@ -154,13 +154,12 @@ if __name__ == "__main__":
     
     # Make a prediction
     predictions = kss.predict(
-        "test/test.wav",
+        "test/test2.wav",
         confidence_threshold=0.9,
-        min_detections=2
+        min_detections=1
     )
     
     # Print results
     for pred in predictions:
         print(f"Detected '{pred['keyword']}' from {pred['start_time']:.2f}s to "
-              f"{pred['end_time']:.2f}s (confidence: {pred['confidence']:.2f}, "
-              f"detections: {pred['num_detections']})")
+              f"{pred['end_time']:.2f}s (confidence: {pred['confidence']:.2f})")
