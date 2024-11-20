@@ -2,6 +2,7 @@ import librosa
 import tensorflow as tf
 import numpy as np
 from collections import Counter
+import json
 
 SAVED_MODEL_PATH = "models/model.keras"
 SAMPLES_TO_CONSIDER = 22050  # ~1 second of audio at 22050Hz
@@ -11,11 +12,21 @@ class KeywordSpottingService:
     Handles audio files of any length by processing them in chunks.
     """
     model = None
-    _mapping = [
-        "no", "yes"
-    ]
+    _mapping = None
     _instance = None
+    
+    def __init__(self):
+        # Load model
+        self.model = tf.keras.models.load_model(SAVED_MODEL_PATH)
 
+        # Dynamically load class mapping from `data.json`
+        with open("data.json", "r") as f:
+            data = json.load(f)
+            self._mapping = data.get("mapping", [])
+        
+        if not self._mapping:
+            raise ValueError("The _mapping list is empty. Ensure `data.json` contains the correct mappings.")
+    
     def predict(self, file_path, confidence_threshold=0.5, min_detections=2):
         """
         Predict keywords in an audio file of any length.
