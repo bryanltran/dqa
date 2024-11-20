@@ -14,15 +14,19 @@ This project pre-processes a voice dataset by extracting Mel-Frequency Cepstral 
 Must have Python installed.
 
 1. **Create a virtual environment:**
-
+* Windows:
    ```bash
-   python -m venv venv
+   .\venv\Scripts\activate
+   ```
+* Linux/MacOS:
+   ```bash
+   source venv/bin/activate
    ```
 
-2. **Install the required library (`librosa`):**
+2. **Install dependencies from requirement.txt document (open the txt file first to confirm):**
 
    ```bash
-   pip install librosa
+   pip install -r requirements.txt
    ```
 
 3. **Download the dataset:**
@@ -53,9 +57,9 @@ Must have Python installed.
 
 After preparing the dataset, you can train the model using the following command:
 
-```bash
-python scripts/train.py
-```
+   ```bash
+   python scripts/train.py
+   ```
 
 This will train the model on the pre-processed dataset and save the trained model for future use.
 
@@ -76,4 +80,11 @@ This will train the model on the pre-processed dataset and save the trained mode
    ```
 
 This will use the trained model to predict the speech command from the audio file in the `tests/` folder.
+
+UI Design prototype from Figma:
+* Home Menu:
+![Screenshot 2024-10-07 183816](https://github.com/user-attachments/assets/9dbfec89-5db8-4872-930e-c56d452d2cea)
+
+* Transcribe:
+![Screenshot 2024-10-07 183824](https://github.com/user-attachments/assets/e5919bc1-5c64-43d8-94f7-e9ee36e89d84)
 
