@@ -9,7 +9,7 @@
 
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, filedialog
 
 # Aquire Assets like images and Title
 OUTPUT_PATH = Path(__file__).parent
@@ -36,38 +36,151 @@ canvas = Canvas(
 )
 
 # Functionality for the top menu (PLACEHOLDERS)
-def on_file_click():
-    print("File menu clicked")
+def on_file_click(cmd):
 
-def on_help_click():
-    print("Help menu clicked")
+    # Opens a file dialog window to open/upload WAV files
+    if (cmd == "open"):
+        file_path = filedialog.askopenfilename(
+            title = "Open WAV File",
+            filetype=[("WAV Files", "*.wav")],
+            defaultextension=".wav"
+        )
+        
+        if file_path:
+            print(f"Selected file: {file_path}")
 
-def on_settings_click():
-    print("Settings menu clicked")
+    # Save an analysis as a text document (may change to a different file format)
+    elif (cmd == "save"):
+        print("test")
+        
+def on_help_click(cmd):
+    
+    # Open the help window
+    if (cmd == "help"):
+        help_window = tk.Toplevel(root)
+        help_window.title("Help")
+        help_window.geometry("500x400")
+        help_window.configure(bg="#FFFFFF")
+        
+        # Add help title text to window
+        help_title_label = tk.Label(
+            help_window,
+            text="Help",
+            bg="#FFFFFF",
+            font=("Inter", 16, "bold"), 
+            justify="center"             
+        )
+        help_title_label.pack(pady=(20, 10))
+        
+        # Add the help contents to the window
+        help_label = tk.Label(
+            help_window,
+            text=("To get started, Please upload any WAV files you want to use to for analysis by either navigating to the upload page or on the top "
+                  "right, click on the file drop down menu."),
+ 
+            bg="#FFFFFF",
+            font=("Inter", 12),
+            justify="left",
+            wraplength=450
+        )
+        help_label.pack(pady=0, padx=20)    
+    
+    # Open the about window    
+    elif (cmd == "about"):
+        about_window = tk.Toplevel(root)
+        about_window.title("About")
+        about_window.geometry("500x400")
+        about_window.configure(bg="#FFFFFF")
+        
+        # Add about title text
+        about_title_label = tk.Label(
+            about_window,
+            text="About",
+            bg="#FFFFFF",
+            font=("Inter", 16, "bold"), 
+            justify="center"             
+        )
+        about_title_label.pack(pady=(20, 10))
+        
+        # Add main about contents
+        about_label = tk.Label(
+            about_window,
+            text=(" This application listens to dispatch calls and will tell if the call needs further reviewing. This will insure that the "
+                  "appropriate questions are asked and helps in quality assurance. The application mainly uses WAV files to analyze the dispatch call.\n\n"
+                  "For confidentiality sake, we advise not to disclose any calls and the analysis to anyone outside of the Norman Police Department. "
+                  "Thank you for using the Dispatch Quality Assurance (DQA)!"),
+            
+            bg="#FFFFFF",
+            font=("Inter", 12),
+            justify="left",
+            wraplength=450
+        )
+        about_label.pack(pady=0, padx=20)    
 
+def on_settings_click(cmd):
+
+    # Open user Preferences
+    if (cmd == "Preferences"):
+        print("test")
+        
+    # Open Credit window
+    elif (cmd == "credit"):
+        credit_window = tk.Toplevel(root)
+        credit_window.title("Credits")
+        credit_window.geometry("500x500")
+        credit_window.configure(bg="#FFFFFF")
+
+    
+        credit_title_label = tk.Label(
+            credit_window,
+            text="Credits",
+            bg="#FFFFFF",
+            font=("Inter", 16, "bold"), 
+            justify="center"             
+        )
+        credit_title_label.pack(pady=(20, 10))
+        
+        # Add credit text
+        credit_label = tk.Label(
+            credit_window,
+            text=("Norman Police Department:\n"
+                "John Stege - Mentor\n\n"
+                "FALL2024 Capstone Team B:\n"
+                "Ethan Nguyen - Front End Coding, Team Manager\n"
+                "Peace Nabwonya Kalamya - Front End Coding, Refinements\n"
+                "Mannie Hammond - Back End Coding\n"
+                "Zin (Thanh Hai) Nguyen - Back End Coding\n"
+                "Byran Tran - Back End Coding"),
+            bg="#FFFFFF",
+            font=("Inter", 12),
+            justify="center"
+        )
+        credit_label.pack(pady=0, padx=20)
+    
 # Create a menu bar
 menubar = tk.Menu(root)
 
 # Create a "File" menu
 file_menu = tk.Menu(menubar, tearoff=0)
-file_menu.add_command(label="New", command=on_file_click)
-file_menu.add_command(label="Open", command=on_file_click)
-file_menu.add_command(label="Save", command=on_file_click)
+file_menu.add_command(label="Open/Upload", command=lambda: on_file_click("open"))
+file_menu.add_command(label="Save", command=lambda: on_file_click("save"))
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
 menubar.add_cascade(label="Files", menu=file_menu)
 
 # Create a "Help" menu
 help_menu = tk.Menu(menubar, tearoff=0)
-help_menu.add_command(label="View Help", command=on_help_click)
-help_menu.add_command(label="About", command=on_help_click)
+help_menu.add_command(label="View Help", command=lambda: on_help_click("help"))
+help_menu.add_command(label="About", command=lambda: on_help_click("about"))
 menubar.add_cascade(label="Help", menu=help_menu)
 
 # Create a "Settings" menu
 settings_menu = tk.Menu(menubar, tearoff=0)
-settings_menu.add_command(label="Preferences", command=on_settings_click)
-settings_menu.add_command(label="Update", command=on_settings_click)
+settings_menu.add_command(label="Preferences", command=lambda: on_settings_click("preferences"))
+settings_menu.add_command(label="Credit", command=lambda: on_settings_click("credit"))
 menubar.add_cascade(label="Settings", menu=settings_menu)
+
+# Create a "Settings" menu
 
 # Configure the menu bar on the main window
 root.config(menu=menubar)
