@@ -1,4 +1,4 @@
-# Dispatch Quality Analysis
+# Dispatch Quality Assurance
 Repository for Fall 2024 CS 4273 Capstone Project
 
 ## NOTE
